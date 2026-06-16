@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'   => '',
-    'hostname' => '117.53.46.60',
+    'hostname' => 'localhost',
     'username' => 'root',
     'password' => 'bunga2026',
     'database' => 'rekapitulasi_saksi',
