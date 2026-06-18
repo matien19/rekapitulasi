@@ -263,6 +263,7 @@ public function simpan()
 
     foreach($id_caleg as $i => $c)
     {
+        log_message('debug', "ID Caleg: $c, Jumlah Suara: [$i]");
         $data[] = [
 
             'id_tps'       => $id_tps,
