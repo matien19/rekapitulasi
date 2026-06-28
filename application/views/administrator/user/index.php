@@ -15,17 +15,15 @@
     <a href="<?= site_url('index.php/administrator/user/export_csv') ?>"
        class="btn btn-success mb-3">
 
-       <i class="fa fa-file-excel"></i>
+        <i class="fa fa-file-excel"></i>
         Export Excel
 
     </a>
 
     <?php if($this->session->flashdata('success')) : ?>
-
         <div class="alert alert-success">
             <?= $this->session->flashdata('success'); ?>
         </div>
-
     <?php endif; ?>
 
     <div class="card shadow mb-4">
@@ -34,7 +32,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="dataTable">
 
                     <thead class="bg-primary text-white">
 
@@ -55,33 +53,27 @@
 
                         <?php if(!empty($users)) : ?>
 
-                            <?php $no = 1; ?>
-
-                            <?php foreach($users as $u) : ?>
+                            <?php $no = 1; foreach($users as $u) : ?>
 
                             <tr>
 
-                                <td class="text-center align-middle">
-                                    <?= $no++ ?>
+                                <td class="text-center"><?= $no++; ?></td>
+
+                                <td><?= $u->nama; ?></td>
+
+                                <td><?= $u->username; ?></td>
+
+                                <td>
+                                    <span class="badge badge-info p-2">
+                                        <?= ucfirst(str_replace('_',' ',$u->role)); ?>
+                                    </span>
                                 </td>
 
-                                <td class="align-middle">
-                                    <?= $u->nama ?>
+                                <td>
+                                    <?= !empty($u->nama_desa) ? $u->nama_desa : '-' ?>
                                 </td>
 
-                                <td class="align-middle">
-                                    <?= $u->username ?>
-                                </td>
-
-                                <td class="align-middle">
-                                    <?= ucfirst(str_replace('_',' ',$u->role)) ?>
-                                </td>
-
-                                <td class="align-middle">
-                                    <?= $u->nama_desa ?>
-                                </td>
-
-                                <td class="text-center align-middle">
+                                <td class="text-center">
 
                                     <a href="<?= base_url('index.php/administrator/user/edit/'.$u->id_user) ?>"
                                        class="btn btn-warning btn-sm">
@@ -107,11 +99,9 @@
                         <?php else : ?>
 
                             <tr>
-
                                 <td colspan="6" class="text-center">
                                     Tidak ada data user
                                 </td>
-
                             </tr>
 
                         <?php endif; ?>
@@ -128,6 +118,47 @@
 
 </div>
 
+<!-- ================= DATATABLE ================= -->
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+    $('#dataTable').DataTable({
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10,25,50,100,-1],
+            [10,25,50,100,"Semua"]
+        ],
+
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            paginate: {
+                first: "Awal",
+                last: "Akhir",
+                next: "›",
+                previous: "‹"
+            },
+            zeroRecords: "Data tidak ditemukan",
+            infoEmpty: "Tidak ada data",
+            infoFiltered: "(difilter dari _MAX_ total data)"
+        }
+
+    });
+
+});
+</script>
+
+<!-- ================= STYLE TAMBAHAN ================= -->
 <style>
 
 .table td,

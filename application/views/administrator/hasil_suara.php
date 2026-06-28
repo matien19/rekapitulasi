@@ -10,12 +10,11 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="dataTable">
 
                     <thead class="bg-primary text-white">
 
                         <tr>
-
                             <th>No</th>
                             <th>TPS</th>
                             <th>Foto Caleg</th>
@@ -25,7 +24,6 @@
                             <th>Partai</th>
                             <th>Jumlah Suara</th>
                             <th>Tanggal</th>
-
                         </tr>
 
                     </thead>
@@ -34,21 +32,13 @@
 
                         <?php if(!empty($hasil)) : ?>
 
-                            <?php
-                            $no = 1;
-
-                            foreach($hasil as $h) :
-                            ?>
+                            <?php $no = 1; foreach($hasil as $h) : ?>
 
                             <tr>
 
-                                <td>
-                                    <?= $no++; ?>
-                                </td>
+                                <td><?= $no++; ?></td>
 
-                                <td>
-                                    <?= $h->nama_tps; ?>
-                                </td>
+                                <td><?= $h->nama_tps; ?></td>
 
                                 <!-- FOTO CALEG -->
                                 <td class="text-center">
@@ -71,13 +61,12 @@
 
                                 </td>
 
-                                <!-- FOTO BUKTI SAKSI -->
+                                <!-- FOTO BUKTI -->
                                 <td class="text-center">
 
                                     <?php if(!empty($h->foto)) : ?>
 
-                                        <a href="<?= base_url('uploads/suara/'.$h->foto) ?>"
-                                           target="_blank">
+                                        <a href="<?= base_url('uploads/suara/'.$h->foto) ?>" target="_blank">
 
                                             <img src="<?= base_url('uploads/suara/'.$h->foto) ?>"
                                                  width="70"
@@ -88,51 +77,30 @@
 
                                     <?php else : ?>
 
-                                        <span class="badge badge-danger">
-                                            Belum Ada
-                                        </span>
+                                        <span class="badge badge-danger">Belum Ada</span>
 
                                     <?php endif; ?>
 
                                 </td>
 
-                                <td>
-                                    <?= $h->nama_caleg; ?>
-                                </td>
+                                <td><?= $h->nama_caleg; ?></td>
 
                                 <td>
-
                                     <span class="badge badge-info p-2">
-
                                         <?= $h->kategori; ?>
-
                                     </span>
-
                                 </td>
 
-                                <td>
-
-                                    <?= $h->partai; ?>
-
-                                </td>
+                                <td><?= $h->partai; ?></td>
 
                                 <td>
-
                                     <span class="badge badge-success p-2">
-
                                         <?= number_format($h->jumlah_suara); ?>
-
                                     </span>
-
                                 </td>
 
                                 <td>
-
-                                    <?= date(
-                                        'd-m-Y H:i',
-                                        strtotime($h->created_at)
-                                    ); ?>
-
+                                    <?= date('d-m-Y H:i', strtotime($h->created_at)); ?>
                                 </td>
 
                             </tr>
@@ -142,13 +110,9 @@
                         <?php else : ?>
 
                             <tr>
-
                                 <td colspan="9" class="text-center">
-
                                     Belum ada data suara
-
                                 </td>
-
                             </tr>
 
                         <?php endif; ?>
@@ -164,3 +128,40 @@
     </div>
 
 </div>
+
+<!-- ================= DATATABLE SCRIPT ================= -->
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+    $('#dataTable').DataTable({
+
+        pageLength: 10,
+
+        lengthMenu: [[10,25,50,100,-1],[10,25,50,100,"Semua"]],
+
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            paginate: {
+                first: "Awal",
+                last: "Akhir",
+                next: "›",
+                previous: "‹"
+            },
+            zeroRecords: "Data tidak ditemukan",
+            infoEmpty: "Tidak ada data",
+            infoFiltered: "(difilter dari _MAX_ total data)"
+        }
+
+    });
+
+});
+</script>

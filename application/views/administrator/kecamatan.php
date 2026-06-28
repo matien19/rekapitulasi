@@ -10,9 +10,12 @@
 <div class="card shadow">
 <div class="card-body">
 
-<table class="table table-bordered">
+<div class="table-responsive">
+
+<table id="tabelKecamatan" class="table table-bordered table-striped">
 
 <thead class="bg-primary text-white">
+
 <tr>
     <th>No</th>
     <th>Provinsi</th>
@@ -20,6 +23,7 @@
     <th>Kecamatan</th>
     <th>Aksi</th>
 </tr>
+
 </thead>
 
 <tbody>
@@ -36,7 +40,7 @@
 
     <td><?= $k->nama_kecamatan ?></td>
 
-    <td>
+    <td width="150">
 
         <a href="<?= site_url('index.php/administrator/kecamatan/edit/'.$k->id_kecamatan) ?>"
            class="btn btn-warning btn-sm">
@@ -60,5 +64,48 @@
 </table>
 
 </div>
+
 </div>
 </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+    $('#tabelKecamatan').DataTable({
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+        language: {
+
+            lengthMenu: "Tampilkan _MENU_ data",
+
+            search: "Cari :",
+
+            zeroRecords: "Data tidak ditemukan",
+
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty: "Tidak ada data",
+
+            infoFiltered: "(difilter dari _MAX_ total data)",
+
+            paginate: {
+                first: "Awal",
+                last: "Akhir",
+                next: "›",
+                previous: "‹"
+            }
+
+        }
+
+    });
+
+});
+</script>

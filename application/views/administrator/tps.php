@@ -10,7 +10,9 @@
 <div class="card shadow">
 <div class="card-body">
 
-<table class="table table-bordered table-striped">
+<div class="table-responsive">
+
+<table id="tabelTPS" class="table table-bordered table-striped">
 
 <thead class="bg-primary text-white">
 <tr>
@@ -68,5 +70,48 @@
 </table>
 
 </div>
+
 </div>
 </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+    $('#tabelTPS').DataTable({
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+        language: {
+
+            lengthMenu: "Tampilkan _MENU_ data",
+
+            search: "Cari :",
+
+            zeroRecords: "Data tidak ditemukan",
+
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty: "Tidak ada data",
+
+            infoFiltered: "(difilter dari _MAX_ total data)",
+
+            paginate: {
+                first: "Awal",
+                last: "Akhir",
+                next: "›",
+                previous: "‹"
+            }
+
+        }
+
+    });
+
+});
+</script>
