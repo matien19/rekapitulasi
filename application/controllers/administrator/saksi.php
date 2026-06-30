@@ -367,32 +367,35 @@ public function update()
         $id_kabupaten = $this->input->post('id_kabupaten');
         $id_kecamatan = $this->input->post('id_kecamatan');
         $id_desa      = $this->input->post('id_desa');
-        $id_tps       = $this->input->post('id_tps');
 
         $this->db->select('
             saksi.*,
-            provinsi.nama_provinsi,
-            kabupaten.nama_kabupaten,
-            kecamatan.nama_kecamatan,
-            desa.nama_desa,
-            tps.nama_tps
+            tps.nama_tps,
+            (SELECT COUNT(*) 
+            FROM suara 
+            WHERE suara.id_tps = saksi.id_tps
+            ) as total_suara
         ');
 
         $this->db->from('saksi');
+        $this->db->join('tps', 'tps.id_tps = saksi.id_tps', 'left');
 
-        $this->db->join('provinsi', 'provinsi.id_provinsi = saksi.id_provinsi');
-        $this->db->join('kabupaten', 'kabupaten.id_kabupaten = saksi.id_kabupaten');
-        $this->db->join('kecamatan', 'kecamatan.id_kecamatan = saksi.id_kecamatan');
-        $this->db->join('desa', 'desa.id_desa = saksi.id_desa');
-        $this->db->join('tps', 'tps.id_tps = saksi.id_tps');
+        if ($id_provinsi) {
+            $this->db->where('saksi.id_provinsi', $id_provinsi);
+        }
+        if ($id_kabupaten) {
+            $this->db->where('saksi.id_kabupaten', $id_kabupaten);
+        }
+        if ($id_kecamatan) {
+            $this->db->where('saksi.id_kecamatan', $id_kecamatan);
+        }
+        if ($id_desa) {
+            $this->db->where('saksi.id_desa', $id_desa);
+        }
 
-        if ($id_provinsi)  $this->db->where('saksi.id_provinsi', $id_provinsi);
-        if ($id_kabupaten) $this->db->where('saksi.id_kabupaten', $id_kabupaten);
-        if ($id_kecamatan) $this->db->where('saksi.id_kecamatan', $id_kecamatan);
-        if ($id_desa)      $this->db->where('saksi.id_desa', $id_desa);
-        if ($id_tps)       $this->db->where('saksi.id_tps', $id_tps);
+        $data = $this->db->get()->result();
 
-        echo json_encode($this->db->get()->result());
+        echo json_encode($data);
     }
       // ================= EXSPOR DATA SAKSI =================
       public function export_csv()
